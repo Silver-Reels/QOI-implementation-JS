@@ -1,54 +1,65 @@
-# code
+# QOI
 Implementation of QOI (Quite OK Image) Format in JavaScript
 
 For more on QOI:
+
 https://github.com/phoboslab/qoi
+
 https://qoiformat.org/
 
 
 My article about image compression and an explanation of QOI:
+
 https://medium.com/@mkhilev/fundamentals-of-image-compression-f357707a9d12
 
 This is a zero-dependency implementation with additional functions helpful to practical use in JS.
 
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Saving an image from the internet in .qoi:
 
 let u = await URLtoCanvas("https://my.url");
+
 // returns object {canvas,context,width,height,channels,colorspace}
 
 let f = bufferFromCanvas(u.canvas,u.context);
+
 // using this method will result in 4 channels for both the ArrayBuffer and u.channels
 
 let e = qoiEncode(f,u);
+
 // encoder needs buffer ('f') and a description object with {width,height,channels,colorspace} which we already have in 'u'
 
 writeArrayBufferToFile(e);
+
 // opens Windows Save As, save it preferably with a .qoi extension
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 Drawing an image in the browser from a .qoi file:
 
 let a = await fetchArrayBufferFromFile();
+
 // select a .qoi file when prompted
 
 let d = {};
+
 let t = qoiDecode(a,d,0);
+
 // 'd' will be populated now
 
 let c = canvasFromBuffer(t,d.width,d.height,d.channels);
 
 document.body.appendChild(c);
+
 // assumes blank html page with relevant .js connected
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-Disclaimer: Some counterparts of the same exampe image included in the original QOI repository may not have been encoded correctly, leading to areBuffersEqual() returning 'false'
+Disclaimer: Some counterparts of the same example image included in the original QOI repository may not have been encoded correctly, leading to areBuffersEqual() returning 'false'
 
 MIT License
 
